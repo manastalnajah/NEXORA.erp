@@ -1,0 +1,19 @@
+cat > README.md <<'EOF'
+# Nexora ERP
+
+Nexora ERP is a customized enterprise resource planning system based on ERPNext and the Frappe Framework.
+
+## Project Goals
+- Accounting and financial management
+- Sales and purchasing
+- Inventory management
+- Reports and printing
+- Responsive interfaces for desktop and mobile
+
+## Development
+This project is under development.
+
+## License
+ERPNext is licensed under the GNU General Public License v3.0.
+Please preserve the original license notices and comply with the applicable license terms when modifying or distributing this project.
+EOF
