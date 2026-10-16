@@ -1,0 +1,202 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "./styles/scroll-fade.css";
+
+@font-face {
+  font-family: InterVariable;
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/assets/frappe/css/fonts/inter/InterVariable.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: InterVariable;
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/assets/frappe/css/fonts/inter/InterVariable-Italic.woff2") format("woff2");
+}
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-*: initial;
+
+  /** ----- Espresso Design System ----- **/
+  --font-sans: "InterVariable", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-sans--font-optical-sizing: auto;
+  --font-sans--font-variation-settings: "opsz" 24;
+  --font-numeric: "InterVariable", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --font-numeric--font-feature-settings: "calt", "cv01", "cv03", "cv04", "cv09", "cv11", "zero";
+  --font-numeric--font-optical-sizing: auto;
+  --font-numeric--font-variation-settings: "opsz" 24;
+
+
+  /** Font Sizes - Web **/
+  --text-2xs: 0.6875rem;
+  --text-2xs--line-height: 1.15;
+  --text-2xs--letter-spacing: 0.01em;
+  --text-2xs--font-weight: 420;
+
+  --text-xs: 0.75rem;
+  --text-xs--line-height: 1.15;
+  --text-xs--letter-spacing: 0.02em;
+  --text-xs--font-weight: 420;
+
+  --text-sm: 0.8125rem;
+  --text-sm--line-height: 1.15;
+  --text-sm--letter-spacing: 0.02em;
+  --text-sm--font-weight: 420;
+
+  --text-base: 0.875rem;
+  --text-base--line-height: 1.15;
+  --text-base--letter-spacing: 0.02em;
+  --text-base--font-weight: 420;
+
+  --text-lg: 1rem;
+  --text-lg--line-height: 1.15;
+  --text-lg--letter-spacing: 0.01em;
+  --text-lg--font-weight: 400;
+
+  --text-xl: 1.125rem;
+  --text-xl--line-height: 1.15;
+  --text-xl--letter-spacing: 0.01em;
+  --text-xl--font-weight: 400;
+
+  --text-2xl: 1.25rem;
+  --text-2xl--line-height: 1.15;
+  --text-2xl--letter-spacing: 0.01em;
+  --text-2xl--font-weight: 400;
+
+  --text-3xl: 1.5rem;
+  --text-3xl--line-height: 1.15;
+  --text-3xl--letter-spacing: 0.005em;
+  --text-3xl--font-weight: 400;
+
+  /* Paragraph font sizes */
+  --text-p-2xs: 0.6875rem;
+  --text-p-2xs--line-height: 1.6;
+  --text-p-2xs--letter-spacing: 0.01em;
+  --text-p-2xs--font-weight: 420;
+
+  --text-p-xs: 0.75rem;
+  --text-p-xs--line-height: 1.6;
+  --text-p-xs--letter-spacing: 0.02em;
+  --text-p-xs--font-weight: 420;
+
+  --text-p-sm: 0.8125rem;
+  --text-p-sm--line-height: 1.5;
+  --text-p-sm--letter-spacing: 0.02em;
+  --text-p-sm--font-weight: 420;
+
+  --text-p-base: 0.875rem;
+  --text-p-base--line-height: 1.5;
+  --text-p-base--letter-spacing: 0.02em;
+  --text-p-base--font-weight: 420;
+
+  --text-p-lg: 1rem;
+  --text-p-lg--line-height: 1.5;
+  --text-p-lg--letter-spacing: 0.02em;
+  --text-p-lg--font-weight: 400;
+
+  --text-p-xl: 1.125rem;
+  --text-p-xl--line-height: 1.42;
+  --text-p-xl--letter-spacing: 0.01em;
+  --text-p-xl--font-weight: 400;
+
+  --text-p-2xl: 1.25rem;
+  --text-p-2xl--line-height: 1.38;
+  --text-p-2xl--letter-spacing: 0.01em;
+  --text-p-2xl--font-weight: 400;
+
+  --text-p-3xl: 1.5rem;
+  --text-p-3xl--line-height: 1.2;
+  --text-p-3xl--letter-spacing: 0.005em;
+  --text-p-3xl--font-weight: 400;
+
+  /** Border Radius **/
+  --radius: 0.5rem;
+  --radius-sm: 0.25rem;
+  --radius-md: 0.625rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.25rem;
+
+  /** Shadow **/
+  --shadow-sm: var(--elevation-sm);
+  --shadow: var(--elevation-base);
+  --shadow-md: var(--elevation-md);
+  --shadow-lg: var(--elevation-lg);
+  --shadow-xl: var(--elevation-xl);
+  --shadow-2xl: var(--elevation-2xl);
+
+  --shadow-switch: 0px 3px 3px 0px rgba(0, 0, 0, 0.05);
+  --shadow-checkbox-hover: 0px 1px 2px 0px rgba(0, 0, 0, 0.06), 0px 1px 3px 0px rgba(0, 0, 0, 0.1);
+
+  --shadow-textarea-active: 0px 1px 4px 0px rgba(0, 0, 0, 0.1);
+
+  /** Spacing **/
+  --spacing-4.5: 1.125rem;
+  --spacing-5.5: 1.375rem;
+  --spacing-6.5: 1.625rem;
+  --spacing-7.5: 1.875rem;
+  --spacing-8.5: 2.125rem;
+  --spacing-9.5: 2.375rem;
+  --spacing-10.5: 2.625rem;
+  --spacing-11.5: 2.875rem;
+  --spacing-12.5: 3.125rem;
+  --spacing-13: 3.25rem;
+  --spacing-13.5: 3.375rem;
+  --spacing-14.5: 3.625rem;
+  --spacing-15: 3.75rem;
+  --spacing-15.5: 3.875rem;
+
+  /** Colors **/
+
+  --color-white: var(--white);
+  --color-black: var(--black);
+
+
+  --color-gray-50: var(--gray-50);
+  --color-gray-100: var(--gray-100);
+  --color-gray-200: var(--gray-200);
+  --color-gray-300: var(--gray-300);
+  --color-gray-400: var(--gray-400);
+  --color-gray-450: var(--gray-450);
+  --color-gray-500: var(--gray-500);
+  --color-gray-600: var(--gray-600);
+  --color-gray-700: var(--gray-700);
+  --color-gray-800: var(--gray-800);
+  --color-gray-900: var(--gray-900);
+  --color-gray-950: var(--gray-950);
+
+
+  --color-red-50: var(--red-50);
+  --color-red-100: var(--red-100);
+  --color-red-200: var(--red-200);
+  --color-red-300: var(--red-300);
+  --color-red-400: var(--red-400);
+  --color-red-500: var(--red-500);
+  --color-red-600: var(--red-600);
+  --color-red-700: var(--red-700);
+  --color-red-800: var(--red-800);
+  --color-red-900: var(--red-900);
+  --color-red-950: var(--red-950);
+
+  --color-blue-50: var(--blue-50);
+  --color-blue-100: var(--blue-100);
+  --color-blue-200: var(--blue-200);
+  --color-blue-300: var(--blue-300);
+  --color-blue-400: var(--blue-400);
+  --color-blue-500: var(--blue-500);
+  --color-blue-600: var(--blue-600);
+  --color-blue-700: var(--blue-700);
+  --color-blue-800: var(--blue-800);
+  --color-blue-900: var(--blue-900);
+  --color-blue-950: var(--blue-950);
+
+  --color-green-50: var(--green-50);
+  --color-green-100: var(--green-100);
+  --color-green-200: var(--green-200);
+  --color-green-300: var(--green-300);
