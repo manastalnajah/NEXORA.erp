@@ -1,0 +1,205 @@
+# Copyright (c) 2015, Frappe Technologies Pvt. Ltd. and Contributors and Contributors
+# See license.txt
+import frappe
+from frappe.test_runner import make_test_records
+from frappe.tests.utils import FrappeTestCase
+
+from erpnext.manufacturing.doctype.job_card.job_card import make_stock_entry
+from erpnext.manufacturing.doctype.operation.test_operation import make_operation
+from erpnext.manufacturing.doctype.routing.test_routing import create_routing, setup_bom
+from erpnext.manufacturing.doctype.workstation.workstation import (
+	NotInWorkingHoursError,
+	OverlapError,
+	WorkstationHolidayError,
+	check_if_within_operating_hours,
+	get_raw_materials,
+)
+
+test_dependencies = ["Warehouse", "Item"]
+test_records = frappe.get_test_records("Workstation")
+make_test_records("Workstation")
+
+
+class TestWorkstation(FrappeTestCase):
+	def make_workstation(self, name, *timings):
+		doc = frappe.new_doc("Workstation", workstation_name=name)
+		for start_time, end_time in timings:
+			doc.append("working_hours", {"start_time": start_time, "end_time": end_time})
+		return doc
+
+	def test_back_to_back_working_hours_do_not_overlap(self):
+		doc = self.make_workstation(
+			"_Test Back To Back Shifts", ("08:00:00", "16:00:00"), ("16:00:00", "23:59:59")
+		)
+		doc.insert()
+
+		# also holds when the touching row is added to an already saved workstation
+		doc.append("working_hours", {"start_time": "05:00:00", "end_time": "08:00:00"})
+		doc.save()
+		self.assertEqual(len(doc.working_hours), 3)
+
+	def test_overlapping_working_hours_raise_error(self):
+		for timing in (
+			("15:00:00", "20:00:00"),  # partial overlap at the end
+			("06:00:00", "09:00:00"),  # partial overlap at the start
+			("10:00:00", "12:00:00"),  # enclosed
+			("07:00:00", "17:00:00"),  # enclosing
+			("08:00:00", "16:00:00"),  # identical
+		):
+			with self.subTest(timing=timing):
+				doc = self.make_workstation("_Test Overlapping Shifts", ("08:00:00", "16:00:00"))
+				doc.insert()
+				doc.append("working_hours", {"start_time": timing[0], "end_time": timing[1]})
+				self.assertRaises(OverlapError, doc.save)
+				doc.delete()
+
+	def test_get_raw_materials_without_items(self):
+		job_card = frappe.get_doc(
+			{
+				"doctype": "Job Card",
+				"company": "_Test Company",
+				"wip_warehouse": "_Test Warehouse 1 - _TC",
+			}
+		).insert(ignore_mandatory=True)
+
+		self.assertEqual(get_raw_materials([job_card.name]), {})
+		with self.assertRaisesRegex(frappe.ValidationError, "This Job Card has no raw materials to transfer"):
+			make_stock_entry(job_card.name)
+
+		job_card.reload()
+		self.assertFalse(job_card.items)
+		self.assertFalse(frappe.db.exists("Stock Entry", {"job_card": job_card.name}))
+
+	def test_get_raw_materials_with_items(self):
+		job_card = frappe.get_doc(
+			{
+				"doctype": "Job Card",
+				"company": "_Test Company",
+				"wip_warehouse": "_Test Warehouse 1 - _TC",
+				"items": [
+					{
+						"item_code": "_Test Item",
+						"source_warehouse": "_Test Warehouse - _TC",
+						"required_qty": 5,
+						"transferred_qty": 2,
+					}
+				],
+			}
+		).insert(ignore_mandatory=True)
+
+		materials = get_raw_materials([job_card.name])
+
+		self.assertEqual(list(materials), [job_card.name])
+		self.assertEqual(len(materials[job_card.name]), 1)
+		material = materials[job_card.name][0]
+		self.assertEqual(material.item_code, "_Test Item")
+		self.assertEqual(material.required_qty, 5)
+		self.assertEqual(material.transferred_qty, 2)
+		self.assertEqual(material.source_warehouse, "_Test Warehouse - _TC")
+
+	def test_validate_timings(self):
+		check_if_within_operating_hours(
+			"_Test Workstation 1", "Operation 1", "2013-02-02 11:00:00", "2013-02-02 19:00:00"
+		)
+		check_if_within_operating_hours(
+			"_Test Workstation 1", "Operation 1", "2013-02-02 10:00:00", "2013-02-02 20:00:00"
+		)
+		self.assertRaises(
+			NotInWorkingHoursError,
+			check_if_within_operating_hours,
+			"_Test Workstation 1",
+			"Operation 1",
+			"2013-02-02 05:00:00",
+			"2013-02-02 20:00:00",
+		)
+		self.assertRaises(
+			NotInWorkingHoursError,
+			check_if_within_operating_hours,
+			"_Test Workstation 1",
+			"Operation 1",
+			"2013-02-02 05:00:00",
+			"2013-02-02 20:00:00",
+		)
+		self.assertRaises(
+			WorkstationHolidayError,
+			check_if_within_operating_hours,
+			"_Test Workstation 1",
+			"Operation 1",
+			"2013-02-01 10:00:00",
+			"2013-02-02 20:00:00",
+		)
+
+	def test_update_bom_operation_rate(self):
+		operations = [
+			{
+				"operation": "Test Operation A",
+				"workstation": "_Test Workstation A",
+				"hour_rate_rent": 300,
+				"time_in_mins": 60,
+			},
+			{
+				"operation": "Test Operation B",
+				"workstation": "_Test Workstation B",
+				"hour_rate_rent": 1000,
+				"time_in_mins": 60,
+			},
+		]
+
+		for row in operations:
+			make_workstation(row)
+			make_operation(row)
+
+		test_routing_operations = [
+			{"operation": "Test Operation A", "workstation": "_Test Workstation A", "time_in_mins": 60},
+			{"operation": "Test Operation B", "workstation": "_Test Workstation A", "time_in_mins": 30},
+		]
+		routing_doc = create_routing(routing_name="Routing Test", operations=test_routing_operations)
+		bom_doc = setup_bom(item_code="_Testing Item", routing=routing_doc.name, currency="INR")
+		w1 = frappe.get_doc("Workstation", "_Test Workstation A")
+		# resets values
+		w1.hour_rate_rent = 300
+		w1.hour_rate_labour = 0
+		w1.save()
+		bom_doc.update_cost()
+		bom_doc.reload()
+		self.assertEqual(w1.hour_rate, 300)
+		self.assertEqual(bom_doc.operations[0].hour_rate, 300)
+		w1.hour_rate_rent = 250
+		w1.save()
+		# updating after setting new rates in workstations
+		bom_doc.update_cost()
+		bom_doc.reload()
+		self.assertEqual(w1.hour_rate, 250)
+		self.assertEqual(bom_doc.operations[0].hour_rate, 250)
+		self.assertEqual(bom_doc.operations[1].hour_rate, 250)
+
+		# hour_rate propagation must also refresh operating_cost (hour_rate * time_in_mins / 60)
+		# on the Routing's BOM Operation rows; the 30-min op exercises the arithmetic.
+		for operation, expected_operating_cost in (("Test Operation A", 250), ("Test Operation B", 125)):
+			hour_rate, operating_cost = frappe.db.get_value(
+				"BOM Operation",
+				{"parent": routing_doc.name, "parenttype": "Routing", "operation": operation},
+				["hour_rate", "operating_cost"],
+			)
+			self.assertEqual(hour_rate, 250)
+			self.assertEqual(operating_cost, expected_operating_cost)
+
+
+def make_workstation(*args, **kwargs):
+	args = args if args else kwargs
+	if isinstance(args, tuple):
+		args = args[0]
+
+	args = frappe._dict(args)
+
+	workstation_name = args.workstation_name or args.workstation
+	if not frappe.db.exists("Workstation", workstation_name):
+		doc = frappe.get_doc({"doctype": "Workstation", "workstation_name": workstation_name})
+		doc.hour_rate_rent = args.get("hour_rate_rent")
+		doc.hour_rate_labour = args.get("hour_rate_labour")
+		doc.workstation_type = args.get("workstation_type")
+		doc.insert()
+
+		return doc
+
+	return frappe.get_doc("Workstation", workstation_name)
