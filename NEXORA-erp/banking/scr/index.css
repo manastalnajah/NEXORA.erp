@@ -1,0 +1,112 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "./styles/scroll-fade.css";
+
+@font-face {
+  font-family: InterVariable;
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/assets/frappe/css/fonts/inter/InterVariable.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: InterVariable;
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/assets/frappe/css/fonts/inter/InterVariable-Italic.woff2") format("woff2");
+}
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-*: initial;
+
+  /** ----- Espresso Design System ----- **/
+  --font-sans: "InterVariable", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-sans--font-optical-sizing: auto;
+  --font-sans--font-variation-settings: "opsz" 24;
+  --font-numeric: "InterVariable", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --font-numeric--font-feature-settings: "calt", "cv01", "cv03", "cv04", "cv09", "cv11", "zero";
+  --font-numeric--font-optical-sizing: auto;
+  --font-numeric--font-variation-settings: "opsz" 24;
+
+
+  /** Font Sizes - Web **/
+  --text-2xs: 0.6875rem;
+  --text-2xs--line-height: 1.15;
+  --text-2xs--letter-spacing: 0.01em;
+  --text-2xs--font-weight: 420;
+
+  --text-xs: 0.75rem;
+  --text-xs--line-height: 1.15;
+  --text-xs--letter-spacing: 0.02em;
+  --text-xs--font-weight: 420;
+
+  --text-sm: 0.8125rem;
+  --text-sm--line-height: 1.15;
+  --text-sm--letter-spacing: 0.02em;
+  --text-sm--font-weight: 420;
+
+  --text-base: 0.875rem;
+  --text-base--line-height: 1.15;
+  --text-base--letter-spacing: 0.02em;
+  --text-base--font-weight: 420;
+
+  --text-lg: 1rem;
+  --text-lg--line-height: 1.15;
+  --text-lg--letter-spacing: 0.01em;
+  --text-lg--font-weight: 400;
+
+  --text-xl: 1.125rem;
+  --text-xl--line-height: 1.15;
+  --text-xl--letter-spacing: 0.01em;
+  --text-xl--font-weight: 400;
+
+  --text-2xl: 1.25rem;
+  --text-2xl--line-height: 1.15;
+  --text-2xl--letter-spacing: 0.01em;
+  --text-2xl--font-weight: 400;
+
+  --text-3xl: 1.5rem;
+  --text-3xl--line-height: 1.15;
+  --text-3xl--letter-spacing: 0.005em;
+  --text-3xl--font-weight: 400;
+
+  /* Paragraph font sizes */
+  --text-p-2xs: 0.6875rem;
+  --text-p-2xs--line-height: 1.6;
+  --text-p-2xs--letter-spacing: 0.01em;
+  --text-p-2xs--font-weight: 420;
+
+  --text-p-xs: 0.75rem;
+  --text-p-xs--line-height: 1.6;
+  --text-p-xs--letter-spacing: 0.02em;
+  --text-p-xs--font-weight: 420;
+
+  --text-p-sm: 0.8125rem;
+  --text-p-sm--line-height: 1.5;
+  --text-p-sm--letter-spacing: 0.02em;
+  --text-p-sm--font-weight: 420;
+
+  --text-p-base: 0.875rem;
+  --text-p-base--line-height: 1.5;
+  --text-p-base--letter-spacing: 0.02em;
+  --text-p-base--font-weight: 420;
+
+  --text-p-lg: 1rem;
+  --text-p-lg--line-height: 1.5;
+  --text-p-lg--letter-spacing: 0.02em;
+  --text-p-lg--font-weight: 400;
+
+  --text-p-xl: 1.125rem;
+  --text-p-xl--line-height: 1.42;
+  --text-p-xl--letter-spacing: 0.01em;
+  --text-p-xl--font-weight: 400;
+
+  --text-p-2xl: 1.25rem;
+  --text-p-2xl--line-height: 1.38;
+  --text-p-2xl--letter-spacing: 0.01em;
+  --text-p-2xl--font-weight: 400;
+
