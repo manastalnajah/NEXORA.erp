@@ -1,0 +1,244 @@
+@import "frappe/public/css/fonts/fontawesome/font-awesome.min.css";
+@import "frappe/public/css/octicons/octicons.css";
+@import "frappe/public/css/fonts/inter/inter.css";
+@import "~frappe-charts/dist/frappe-charts.min";
+@import "~plyr/dist/plyr";
+@import "./desk/index";
+
+@import "frappe/public/js/lib/leaflet/leaflet.css";
+@import "frappe/public/js/lib/leaflet_easy_button/easy-button.css";
+@import "frappe/public/js/lib/leaflet_control_locate/L.Control.Locate.css";
+@import "frappe/public/js/lib/leaflet_draw/leaflet.draw.css";
+
+
+/* NEXORA ERP CUSTOM THEME */
+:root {
+    --bg-color: #E9EEF5;
+    --fg-color: #F8FAFC;
+    --navbar-bg: #172B4D;
+    --card-bg: #FFFFFF;
+    --control-bg: #F1F5F9;
+    --control-bg-on-gray: #E2E8F0;
+    --border-color: #D5DEE9;
+    --dark-border-color: #C4D0DF;
+    --table-border-color: #D5DEE9;
+    --primary-color: #2563EB;
+    --btn-default-bg: #E2E8F0;
+    --btn-default-hover-bg: #CBD5E1;
+    --sidebar-select-color: #294568;
+    --highlight-color: #EAF2FF;
+    --scrollbar-track-color: #E2E8F0;
+}
+
+html,
+body {
+    background-color: #E9EEF5;
+}
+
+body .navbar {
+    background-color: #172B4D !important;
+    border-bottom: 1px solid #294568;
+}
+
+body .navbar,
+body .navbar a,
+body .navbar button,
+body .navbar .icon,
+body .navbar svg {
+    color: #F8FAFC;
+    --icon-stroke: #F8FAFC;
+}
+
+body .navbar .icon,
+body .navbar svg {
+    stroke: #F8FAFC;
+}
+
+body .navbar a:hover,
+body .navbar button:hover {
+    background-color: #294568;
+}
+
+body .desk-sidebar {
+    background-color: #172B4D;
+    color: #E2E8F0;
+    border-right: 1px solid #294568;
+}
+
+body .desk-sidebar .standard-sidebar-label,
+body .desk-sidebar .standard-sidebar-item,
+body .desk-sidebar .standard-sidebar-item a,
+body .desk-sidebar .standard-sidebar-item span,
+body .desk-sidebar .standard-sidebar-item .icon {
+    color: #E2E8F0;
+    --icon-stroke: #CBD5E1;
+}
+
+body .desk-sidebar .standard-sidebar-item {
+    border-radius: 6px;
+}
+
+body .desk-sidebar .standard-sidebar-item:hover {
+    background-color: #294568;
+}
+
+body .desk-sidebar .standard-sidebar-item.selected,
+body .desk-sidebar .standard-sidebar-item.active,
+body .desk-sidebar .standard-sidebar-item[aria-current="page"] {
+    background-color: #2563EB;
+    color: #FFFFFF;
+}
+
+body .desk-sidebar .standard-sidebar-item.selected a,
+body .desk-sidebar .standard-sidebar-item.active a {
+    color: #FFFFFF;
+}
+
+body .layout-main-section-wrapper {
+    background-color: #E9EEF5;
+}
+
+body .layout-main-section,
+body .layout-main-section.frappe-card,
+body .widget {
+    background-color: #FFFFFF;
+    border-color: #D5DEE9;
+}
+
+body .page-head {
+    background-color: #F1F5F9;
+}
+
+body .btn-primary,
+body .btn-primary:hover,
+body .btn-primary:focus {
+    background-color: #2563EB;
+    border-color: #2563EB;
+    color: #FFFFFF;
+}
+
+body .form-control,
+body input.form-control,
+body textarea.form-control,
+body select.form-control {
+    background-color: #FFFFFF;
+    border-color: #CBD5E1;
+    color: #1E293B;
+}
+
+body .form-control:focus {
+    border-color: #2563EB;
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
+}
+
+body .list-row,
+body .list-row-container,
+body .result,
+body .grid-row {
+    border-color: #D5DEE9;
+}
+
+body .list-row:hover,
+body .grid-row:hover {
+    background-color: #F1F5F9;
+}
+
+body .modal-content,
+body .popover,
+body .dropdown-menu {
+    background-color: #FFFFFF;
+    color: #1E293B;
+    border-color: #D5DEE9;
+}
+
+body .dropdown-menu a,
+body .dropdown-menu .dropdown-item {
+    color: #1E293B;
+}
+
+body .dropdown-menu a:hover,
+body .dropdown-menu .dropdown-item:hover {
+    background-color: #EAF2FF;
+}
+
+body .text-muted {
+    color: #64748B !important;
+}
+/* END NEXORA ERP CUSTOM THEME */
+
+
+/* NEXORA WORKSPACE BACKGROUND FIX */
+html, body,
+body .page-container,
+body .page-body,
+body .page-content,
+body .layout-main,
+body .layout-main-section-wrapper,
+body .desk-container,
+body .workspace,
+body .workspace-page,
+body .main-section,
+body .page-content-wrapper {
+    background-color: #CBD5E1 !important;
+}
+
+body .layout-main-section,
+body .layout-main-section-wrapper .layout-main-section,
+body .workspace .layout-main-section {
+    background-color: #CBD5E1 !important;
+    border-color: #B8C5D6 !important;
+}
+
+body .page-head,
+body .page-head .container {
+    background-color: #D5DEE9 !important;
+}
+/* END NEXORA WORKSPACE BACKGROUND FIX */
+
+
+
+/* NEXORA CARDS AND FIELDS COLORS */
+
+/* Cards and panels only */
+body .frappe-card,
+body .widget,
+body .dashboard-widget-box,
+body .widget-group,
+body .form-dashboard-section,
+body .form-section,
+body .section-head,
+body .modal-content {
+    background-color: #F8FAFC !important;
+    border-color: #B8C5D6 !important;
+}
+
+/* Input fields */
+body .form-control,
+body input.form-control,
+body textarea.form-control,
+body select.form-control,
+body .like-disabled-input {
+    background-color: #EEF2F7 !important;
+    border-color: #B8C5D6 !important;
+    color: #1E293B !important;
+}
+
+/* Focused fields */
+body .form-control:focus,
+body input.form-control:focus,
+body textarea.form-control:focus,
+body select.form-control:focus {
+    background-color: #FFFFFF !important;
+    border-color: #2563EB !important;
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15) !important;
+}
+
+/* Keep text readable */
+body .frappe-card,
+body .widget,
+body .form-section,
+body .form-dashboard-section {
+    color: #1E293B;
+}
+
+/* END NEXORA CARDS AND FIELDS COLORS */
