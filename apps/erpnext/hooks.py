@@ -6,8 +6,8 @@ app_icon = "fa fa-th"
 app_color = "#e74c3c"
 app_email = "hello@frappe.io"
 app_license = "GNU General Public License (v3)"
-source_link = "https://github.com/frappe/erpnext"
-app_logo_url = "/assets/erpnext/images/erpnext-logo.svg"
+source_link = "https://github.com/manastalnajah/NEXORA.erp"
+app_logo_url = "/assets/erpnext/images/nexora-logo.png"
 
 
 develop_version = "14.x.x-develop"
@@ -89,7 +89,7 @@ website_generators = ["Item Group", "Website Item", "BOM", "Sales Partner"]
 
 website_context = {
 	"favicon": "/assets/erpnext/images/erpnext-favicon.svg",
-	"splash_image": "/assets/erpnext/images/erpnext-logo.svg",
+	"splash_image": "/assets/erpnext/images/nexora-logo.png",
 }
 
 # nosemgrep
@@ -474,7 +474,7 @@ scheduler_events = {
 	],
 }
 
-email_brand_image = "assets/erpnext/images/erpnext-logo.jpg"
+email_brand_image = "assets/erpnext/images/nexora-logo.png"
 
 default_mail_footer = """
 	<span>
